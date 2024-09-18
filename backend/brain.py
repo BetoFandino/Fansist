@@ -1,6 +1,6 @@
 from input import input_process
 
-def main():
+def brain():
     print("Asistente Virtual activado. Escribe 'salir' para cerrar.")
     while True:
         entrada = input("Process: ")
@@ -11,4 +11,4 @@ def main():
         input_process(entrada)
 
 if __name__ == "__main__":
-    main()
+    brain()

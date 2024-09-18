@@ -1,0 +1,7 @@
+flet
+SpeechRecognition
+pyttsx3
+pyaudio
+setuptools
+pocketsphinx
+python-dotenv
