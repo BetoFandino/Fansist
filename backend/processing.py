@@ -1,4 +1,4 @@
-from execution import terminal_ejecutions, open_app, open_browser
+from backend.execution import terminal_ejecutions, open_app, open_browser
 
 def input_process(process):
     if process == 'one':
@@ -8,5 +8,10 @@ def input_process(process):
         open_app('spotify')
         open_browser('Default','https://calendar.google.com/calendar/u/0/r')
         open_browser('Default', 'https://3.basecamp.com/3966315/projects')
+    elif process == 'two':
+        open_app('todoist')
+        open_app('spotify')
+        open_browser('Profile 1', 'https://app.clockify.me/dashboard')
+        open_browser('Profile 1', 'https://bladimirjaponte.atlassian.net/jira/software/projects/EGT/boards/2')
     else:
         print(f"No tengo habilitado el proceso '{process}'. Por favor, intente con otro.")

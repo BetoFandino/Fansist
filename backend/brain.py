@@ -1,14 +1,14 @@
-from input import input_process
+from time import sleep
+from backend.input_voice import InputCommand
 
 def brain():
-    print("Asistente Virtual activado. Escribe 'salir' para cerrar.")
+    input_command = InputCommand()
+    input_command.speak("Virtual Assistant activated. Type 'exit' to close.")
+    sleep(2)
     while True:
-        entrada = input("Process: ")
-
-        if entrada == "exit":
-            print("adios")
+        command = input_command.listen_command()
+        if not input_command.execute_command(command):
             break
-        input_process(entrada)
 
 if __name__ == "__main__":
     brain()
