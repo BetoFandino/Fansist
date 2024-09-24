@@ -1,52 +1,70 @@
 import flet as ft
 import math
-from backend.brain import brain
+
+from backend.brain import Brain
 
 def main(page: ft.Page):
-    # Establecer el título de la ventana
-    page.title = "Ventana Simple"
+    brain = Brain()
+    brain.enable_listen_command()
+    page.title = "Fansist"
 
-    # Ajustar el tamaño de la ventana
-    page.window_width = 300  # Ancho de la ventana
-    page.window_height = 200  # Altura de la ventana
+    page.window_width = 350
+    page.window_height = 250
 
-    # Establecer el diseño a tamaño completo
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
-    # Función para cerrar la ventana
-    def cerrar_ventana(e):
-        page.window_close()  # Cerrar la ventana
-
-    # Función para simular la apertura de algo
-    def abrir_algo(e):
-        brain()
-
-    # Crear un texto de saludo
-    saludo = ft.Text("Hola", size=30, color="white")
-
-    # Crear los botones de cerrar y abrir
-    btn_cerrar = ft.ElevatedButton(text="Cerrar", on_click=cerrar_ventana)
-    btn_abrir = ft.ElevatedButton(text="Abrir", on_click=abrir_algo)
-
-    fansist_imagen = ft.Image(
-        src="assets/fansist.png",  # Ruta de la imagen local
-        width=100,  # Ajustar el ancho de la imagen
-        height=100,  # Ajustar la altura de la imagen
+    input_command = ft.TextField(
+        label="Ingresa comando",
+        width=200,
     )
 
-    # Crear el contenedor de fondo con el gradiente que ocupe toda la ventana
+    def disable_enable_voice_listening(e):
+        if btn_activate_listening.icon_color == "green":
+            brain.disable_listen_command()
+            btn_activate_listening.icon_color = "red"
+        else:
+            brain.enable_listen_command()
+            btn_activate_listening.icon_color = "green"
+
+        # Actualizar la página después del cambio de color
+        page.update()
+
+    def manual_execute(e):
+        command = input_command.value
+        brain.input_manual_command(command)
+
+    # Botón para activar/desactivar escucha por voz
+    btn_activate_listening = ft.IconButton(
+        icon=ft.icons.MIC, icon_color="green",
+        on_click=disable_enable_voice_listening
+    )
+
+    # Botón para ejecutar el comando manualmente
+    btn_manual_execute = ft.ElevatedButton(text="Manual", on_click=manual_execute)
+
+    # Imagen del logo o ilustración
+    fansist_imagen = ft.Image(
+        src="assets/fansist.png",
+        width=100,
+        height=100,
+    )
+
+    # Fondo con gradiente
     background = ft.Container(
         content=ft.Column(
             [
                 fansist_imagen,
-                btn_abrir,
-                btn_cerrar
+                input_command,
+                ft.Row(  # Usar Row para que los botones estén en una fila
+                    [btn_manual_execute, btn_activate_listening],
+                    alignment=ft.MainAxisAlignment.CENTER
+                )
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         ),
-        expand=True,  # Esto hace que el fondo ocupe todo el espacio de la ventana
+        expand=True,
         alignment=ft.alignment.center,
         gradient=ft.LinearGradient(
             begin=ft.alignment.top_left,
@@ -66,8 +84,7 @@ def main(page: ft.Page):
         ),
     )
 
-    # Añadir el contenedor de fondo a la página
     page.add(background)
 
-# Ejecutar la aplicación
+
 ft.app(target=main)

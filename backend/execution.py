@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def terminal_ejecutions(command):
+def terminal_executions(command):
     try:
         password = os.getenv('SUDO_PASSWORD')
 

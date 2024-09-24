@@ -1,17 +1,53 @@
-from backend.execution import terminal_ejecutions, open_app, open_browser
+from backend.database import DatabaseManager
+from backend.execution import terminal_executions, open_app, open_browser
+from backend.speak import SpeakVoice
 
-def input_process(process):
-    if process == 'one':
-        print("Iniciando el VPN de EDUNEXT...")
-        terminal_ejecutions('openvpn Documents/EDUNEXT/jorge_f.ovpn')
-        open_app('todoist')
-        open_app('spotify')
-        open_browser('Default','https://calendar.google.com/calendar/u/0/r')
-        open_browser('Default', 'https://3.basecamp.com/3966315/projects')
-    elif process == 'two':
-        open_app('todoist')
-        open_app('spotify')
-        open_browser('Profile 1', 'https://app.clockify.me/dashboard')
-        open_browser('Profile 1', 'https://bladimirjaponte.atlassian.net/jira/software/projects/EGT/boards/2')
-    else:
-        print(f"No tengo habilitado el proceso '{process}'. Por favor, intente con otro.")
+speak = SpeakVoice().speak
+
+
+class Process:
+    def __init__(self, process):
+        self.process = process
+        self.database = DatabaseManager()
+        self.database.create_table()
+
+    def init(self):
+        action = [{
+        'name': 'terminal_execution',
+        'command': 'openvpn Documents/EDUNEXT/jorge_f.ovpn',
+    },
+    {
+        'name': 'open_browser',
+        'profile_name': 'Default',
+        'url': 'https://calendar.google.com/calendar/u/0/r',
+    },
+    {
+        'name': 'open_app',
+        'app': 'todoist',
+    },{
+        'name': 'open_app',
+        'app': 'spotify',
+    },{
+        'name': 'open_browser',
+        'profile_name': 'Default',
+        'url': 'https://3.basecamp.com/3966315/projects',
+    }
+    ]
+        print('guardado data test')
+        self.database.insert_process('one', action)
+
+    def get(self):
+        return self.database.get_process(self.process)
+
+    def start(self):
+        process_name, process = self.get()
+        if not process: return None
+        for procesing in process:
+            if procesing['name'] == 'terminal_execution':
+                terminal_executions(procesing['command'])
+            elif procesing['name'] == 'open_browser':
+                open_browser(procesing['profile_name'], procesing['url'])
+            elif procesing['name'] == 'open_app':
+                open_app(procesing['app'])
+        return True
+
