@@ -8,7 +8,7 @@ class Brain:
     def __init__(self):
         self.input_command = InputCommand()
         self.speak = SpeakVoice()
-        self.speak.speak("Virtual Assistant activated.")
+        self.speak.speak("Asistente virtual activado. Bienvenido, Beto")
         self.thread_manager = ThreadManager()
         self.thread_manager.register_event("voice_listening", self.input_command.listen_command)
 

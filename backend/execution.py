@@ -34,3 +34,4 @@ def open_app(app):
         print(f"{app} is not installed or not found in the system PATH.")
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while trying to open {app}: {e}")
+

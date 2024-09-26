@@ -17,10 +17,10 @@ class InputCommand:
     # Function to listen for voice commands
     def listen_command(self):
         recognizer = sr.Recognizer()
+        self.speak("¿Como te puedo ayudar?")
         while self.active:
             with sr.Microphone() as source:
                 print("Listening...")
-                self.speak("How can I help you?")
                 audio = recognizer.listen(source)
 
                 try:
@@ -31,15 +31,14 @@ class InputCommand:
                     process = Process(command.lower())
                     status_process = process.start()
                     if status_process:
-                        self.speak(f"Process {command.lower()} executed successfully.")
-                    self.speak('Sorry.')
+                        self.speak(f"Proceso {command.lower()} ejecutado exitosamente.")
                 except sr.UnknownValueError:
                     print("Sorry, I didn't understand the command.")
-                    self.speak("Sorry, I didn't understand.")
+                    self.speak("Lo siento, no te entendi.")
 
                 except sr.RequestError as e:
                     print("Couldn't connect to the voice recognition service.", e)
-                    self.speak("Sorry, there was an error.")
+                    self.speak("Lo siento, hubo un error.")
 
 
     def start_listening(self):
@@ -54,5 +53,5 @@ class InputCommand:
         # process.init()
         status_process = process.start()
         if status_process:
-            self.speak(f"Process {command.lower()} executed successfully.")
+            self.speak(f"Proceso {command.lower()} ejecutado exitosamente.")
 

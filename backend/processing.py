@@ -1,3 +1,5 @@
+import threading
+from time import sleep
 from backend.database import DatabaseManager
 from backend.execution import terminal_executions, open_app, open_browser
 from backend.speak import SpeakVoice
@@ -34,7 +36,7 @@ class Process:
     }
     ]
         print('guardado data test')
-        self.database.insert_process('one', action)
+        self.database.insert_process('why', action)
 
     def get(self):
         return self.database.get_process(self.process)
@@ -49,5 +51,6 @@ class Process:
                 open_browser(procesing['profile_name'], procesing['url'])
             elif procesing['name'] == 'open_app':
                 open_app(procesing['app'])
+                # sleep(2)
         return True
 
